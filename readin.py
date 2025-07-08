@@ -3,22 +3,22 @@ import numpy as np
 import pandas as pd
 from brukeropusreader import read_file
 
-# 获取当前目录下所有文件
+# Get all files in current directory with OPUS extensions
 files = [f for f in os.listdir() if f.endswith(('.0', '.1', '.2', '.3'))]
 
 for file_path in files:
     try:
-        # 读取OPUS文件
+        # Read OPUS file
         opus_data = read_file(file_path)
-        
-        # 提取数据
-        x = np.arange(len(opus_data["AB"]))  # 波数或索引
-        y = opus_data["AB"]  # 吸光度数据
-        
-        # 创建DataFrame并保存为CSV
+
+        # Extract data
+        x = np.arange(len(opus_data["AB"]))  # Wavenumber or index
+        y = opus_data["AB"]  # Absorbance data
+
+        # Create DataFrame and save as CSV
         df = pd.DataFrame({'Wavenumber': x, 'Absorbance': y})
-        
-        # 修改文件名生成逻辑，保留原始扩展名
+
+        # Modify filename generation logic, preserve original extension
         base_name = os.path.splitext(file_path)[0]
         ext = os.path.splitext(file_path)[1]
         csv_path = f"{base_name}{ext}.csv"
