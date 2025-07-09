@@ -131,30 +131,30 @@ ftir-uv-curing-analysis/
 - **Kinetic Parameter Estimation**: Rate constants and reaction orders
 - **Confidence Intervals**: Statistical significance testing
 - **Correlation Analysis**: Inter-variable relationships
-- **正速率常数**: 表示产物形成或新键生成
-- **R² > 0.95**: 高置信度拟合
-- **R² 0.90-0.95**: 中等置信度拟合
-- **R² < 0.90**: 低置信度拟合
+- **Positive Rate Constants**: Indicate product formation or new bond generation
+- **R² > 0.95**: High confidence fitting
+- **R² 0.90-0.95**: Medium confidence fitting
+- **R² < 0.90**: Low confidence fitting
 
-### PCA分析
-- **PC1**: 通常代表主要的化学变化
-- **PC2**: 代表次要的变化模式
-- **累积方差**: 前几个主成分解释的总方差
+### PCA Analysis
+- **PC1**: Usually represents main chemical changes
+- **PC2**: Represents secondary variation patterns
+- **Cumulative Variance**: Total variance explained by first few principal components
 
-## 技术特点
+## Technical Features
 
-### 算法优势
-1. **自适应基线校正**: ALS算法自动处理基线漂移
-2. **多模型比较**: 自动选择最佳动力学模型
-3. **数据对齐**: 自动处理不同长度的光谱数据
-4. **异常值处理**: 3σ准则筛选异常数据点
+### Algorithm Advantages
+1. **Adaptive Baseline Correction**: ALS algorithm automatically handles baseline drift
+2. **Multi-Model Comparison**: Automatically selects best kinetic model
+3. **Data Alignment**: Automatically handles spectra of different lengths
+4. **Outlier Detection**: 3σ criterion for filtering anomalous data points
 
-### 性能优化
-1. **内存效率**: 分块处理大数据集
-2. **计算优化**: 向量化操作提高速度
-3. **错误处理**: 完善的异常捕获和处理
+### Performance Optimization
+1. **Memory Efficiency**: Chunked processing for large datasets
+2. **Computational Optimization**: Vectorized operations for improved speed
+3. **Error Handling**: Comprehensive exception catching and handling
 
-## 依赖库
+## Dependencies
 
 ```
 pandas >= 1.3.0
@@ -162,42 +162,42 @@ numpy >= 1.21.0
 matplotlib >= 3.4.0
 scipy >= 1.7.0
 scikit-learn >= 1.0.0
-tkinter (Python标准库)
+tkinter (Python standard library)
 ```
 
-## 安装依赖
+## Install Dependencies
 
 ```bash
 pip install pandas numpy matplotlib scipy scikit-learn
 ```
 
-## 注意事项
+## Important Notes
 
-1. **数据质量**: 确保光谱数据质量良好，信噪比足够
-2. **时间点选择**: 建议选择有代表性的时间点进行分析
-3. **波数范围**: 根据研究目标选择合适的波数范围
-4. **模型选择**: 根据R²值和物理意义选择最佳模型
+1. **Data Quality**: Ensure spectral data quality is good with sufficient signal-to-noise ratio
+2. **Time Point Selection**: Recommend selecting representative time points for analysis
+3. **Wavenumber Range**: Choose appropriate wavenumber range based on research objectives
+4. **Model Selection**: Select best model based on R² values and physical significance
 
-## 故障排除
+## Troubleshooting
 
-### 常见问题
-1. **数据加载失败**: 检查CSV文件格式和列名
-2. **分析失败**: 确保选择了足够的时间点和数据
-3. **拟合效果差**: 尝试不同的预处理参数
-4. **内存不足**: 减少分析的数据范围
+### Common Issues
+1. **Data Loading Failed**: Check CSV file format and column names
+2. **Analysis Failed**: Ensure sufficient time points and data are selected
+3. **Poor Fitting**: Try different preprocessing parameters
+4. **Memory Insufficient**: Reduce analysis data range
 
-### 联系支持
-如有问题，请检查：
-1. 数据文件格式是否正确
-2. 依赖库是否完整安装
-3. Python版本是否兼容 (推荐3.7+)
+### Support Contact
+If you encounter issues, please check:
+1. Whether data file format is correct
+2. Whether dependencies are completely installed
+3. Whether Python version is compatible (recommended 3.7+)
 
-## 更新日志
+## Changelog
 
-### v1.0.0 (当前版本)
-- 完整的FTIR分析功能
-- GUI界面支持
-- 多种动力学模型
-- PCA分析
-- 可视化图表生成
-- 自动报告生成
+### v1.0.0 (Current Version)
+- Complete FTIR analysis functionality
+- GUI interface support
+- Multiple kinetic models
+- PCA analysis
+- Visualization chart generation
+- Automatic report generation
