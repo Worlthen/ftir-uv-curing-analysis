@@ -62,51 +62,51 @@ def load_sample_data():
 def generate_realistic_spectrum(wavenumbers, conversion):
     """
     Generate realistic FTIR spectrum for UV curing with proper chemical signatures
-    
+
     Parameters:
     -----------
     wavenumbers : np.ndarray
         Wavenumber array
     conversion : float
         Degree of conversion (0-1)
-        
+
     Returns:
     --------
     np.ndarray : Generated spectrum
     """
-    spectrum = np.zeros_like(wavenumbers)
-    
+    spectrum = np.zeros_like(wavenumbers, dtype=np.float64)
+
     # Add baseline
     baseline = 0.1 + 0.05 * np.random.random(len(wavenumbers))
-    spectrum += baseline
+    spectrum = spectrum + baseline
     
     # C=C stretch (acrylate) - decreases with conversion
     c_equals_c_intensity = 0.8 * (1 - conversion) * gaussian_peak(wavenumbers, 1635, 15)
-    spectrum += c_equals_c_intensity
-    
+    spectrum = spectrum + c_equals_c_intensity
+
     # C=O stretch (ester) - relatively stable
     c_equals_o_intensity = 1.2 * gaussian_peak(wavenumbers, 1730, 20)
-    spectrum += c_equals_o_intensity
-    
+    spectrum = spectrum + c_equals_o_intensity
+
     # C-H stretch (alkyl) - increases with polymerization
     c_h_alkyl_intensity = 0.6 * (0.3 + 0.7 * conversion) * gaussian_peak(wavenumbers, 2920, 30)
-    spectrum += c_h_alkyl_intensity
-    
+    spectrum = spectrum + c_h_alkyl_intensity
+
     # =C-H stretch (vinyl) - decreases with conversion
     vinyl_c_h_intensity = 0.4 * (1 - conversion) * gaussian_peak(wavenumbers, 3100, 10)
-    spectrum += vinyl_c_h_intensity
-    
+    spectrum = spectrum + vinyl_c_h_intensity
+
     # C-O stretch (ester/ether) - increases with crosslinking
     c_o_intensity = 0.5 * (0.2 + 0.8 * conversion) * gaussian_peak(wavenumbers, 1200, 50)
-    spectrum += c_o_intensity
-    
+    spectrum = spectrum + c_o_intensity
+
     # Photoinitiator C=O - decreases with photolysis
     pi_intensity = 0.3 * (1 - 0.9 * conversion) * gaussian_peak(wavenumbers, 1670, 12)
-    spectrum += pi_intensity
-    
+    spectrum = spectrum + pi_intensity
+
     # Add realistic noise
     noise = 0.01 * np.random.random(len(wavenumbers))
-    spectrum += noise
+    spectrum = spectrum + noise
     
     return spectrum
 

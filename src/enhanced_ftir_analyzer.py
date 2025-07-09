@@ -413,16 +413,20 @@ class EnhancedFTIRAnalyzer:
     def _als_baseline_correction(self, spectrum: np.ndarray,
                                lam: float = 1e6, p: float = 0.001,
                                niter: int = 10) -> np.ndarray:
-        """Asymmetric Least Squares baseline correction"""
+        """Asymmetric Least Squares baseline correction - simplified version"""
+        # Simplified ALS implementation without sparse matrices
         L = len(spectrum)
-        D = sparse.diags([1, -2, 1], [0, -1, -2], shape=(L, L-2))
-        w = np.ones(L)
+        w = np.ones(L, dtype=np.float64)
+        z = np.copy(spectrum).astype(np.float64)
 
-        for i in range(niter):
-            W = sparse.spdiags(w, 0, L, L)
-            Z = W + lam * D.dot(D.transpose())
-            z = sparse.linalg.spsolve(Z, w * spectrum)
-            w = p * (spectrum > z) + (1 - p) * (spectrum < z)
+        for _ in range(niter):
+            # Simple smoothing approach
+            window_size = min(51, L//4 if L//4 % 2 == 1 else L//4 + 1)
+            if window_size < 3:
+                window_size = 3
+            z_smooth = signal.savgol_filter(z, window_size, 3)
+            w = p * (spectrum > z_smooth).astype(np.float64) + (1 - p) * (spectrum < z_smooth).astype(np.float64)
+            z = w * spectrum.astype(np.float64) + (1 - w) * z_smooth
 
         return spectrum - z
 
@@ -673,7 +677,7 @@ class EnhancedFTIRAnalyzer:
 
         # Rank models by AIC (lower is better)
         aic_scores = {k: v['aic'] for k, v in valid_models.items()}
-        best_model_name = min(aic_scores, key=aic_scores.get)
+        best_model_name = min(aic_scores.keys(), key=lambda k: aic_scores[k])
 
         best_model = valid_models[best_model_name].copy()
         best_model['model_name'] = best_model_name
@@ -743,7 +747,7 @@ class EnhancedFTIRAnalyzer:
         dw_stat = np.sum(diff_residuals**2) / np.sum(residuals**2)
 
         # DW statistic should be around 2 for random residuals
-        return 1.5 <= dw_stat <= 2.5
+        return bool(1.5 <= dw_stat <= 2.5)
 
     def _calculate_confidence_intervals(self, model_results: Dict) -> Dict:
         """Calculate 95% confidence intervals for parameters"""
